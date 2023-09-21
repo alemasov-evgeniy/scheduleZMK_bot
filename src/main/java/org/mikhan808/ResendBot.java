@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,10 @@ public class ResendBot extends TelegramLongPollingBot {
             {
                 sendText(id,BotConfig.START_MESSAGE);
             }else {
-                sendText(BotConfig.RESEND_ID,String.format(BotConfig.RESEND_MESSAGE,msg.getText()));
-                sendText(id,String.format(BotConfig.REPLY_MESSAGE,msg.getText()));
+                String resendMsg = MessageFormat.format(BotConfig.RESEND_MESSAGE,msg.getText());
+                sendText(BotConfig.RESEND_ID,resendMsg);
+                String replyMsg = MessageFormat.format(BotConfig.REPLY_MESSAGE,msg.getText());
+                sendText(id,replyMsg);
             }
         } else if (update.hasCallbackQuery()) {
             id = update.getCallbackQuery().getMessage().getChatId();
